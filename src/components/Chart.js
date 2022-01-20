@@ -50,8 +50,8 @@ const Chart = () => {
         }
     }
     const createFilteredData = (code) => {
-        const filter = filterBy.filterType
         const filteredData = {}
+        const filter = filterBy.filterType
         let mean = 0
         let total = 0
         if(filter === 'Total'){
@@ -201,16 +201,3 @@ const Chart = () => {
 }
 
 export default Chart
-
-// const getUniqueAirportCodes = (data) => {
-//     // const codes = []
-//     const codes = {}
-//     data.forEach(el => {
-//         const code = el.Airport.Code
-//         if(!codes[code]){
-//             codes[code] = true
-//         }
-//     })
-//     const codesArray = Object.keys(codes)
-//     console.log(codesArray)
-// }
