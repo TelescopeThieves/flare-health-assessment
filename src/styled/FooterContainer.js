@@ -6,5 +6,4 @@ const FooterContainer = styled.div`
     padding: 2rem;
     color: white;
 `
-
 export default FooterContainer

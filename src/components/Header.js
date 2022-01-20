@@ -4,7 +4,7 @@ import React from 'react'
 const Header = () => {
     return(
         <HeaderContainer>
-            <h1>Flight Data</h1>
+            <h1>Flight Delay Data</h1>
         </HeaderContainer>
     )
 }

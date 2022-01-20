@@ -135,7 +135,7 @@ const Chart = () => {
                         <div>
                             <label htmlFor={'selectedAirportCodes'}>Airport Code:</label>
                             <select name={'selectedAirportCodes'} value={filterBy.selectedAirportCodes.slice(-1)} onChange={handleFilterSelect}>
-                                <option value={''}>{filterBy.selectedAirportCodes.slice(-1)}</option>
+                                <option value={''}>{filterBy.selectedAirportCodes[filterBy.selectedAirportCodes.length - 1] || 'Code'}</option>
                                 {airportCodes.map(code => {
                                     if(!filterBy.selectedAirportCodes.includes(code)){
                                         return <option key={code} value={code}>{code}</option>
