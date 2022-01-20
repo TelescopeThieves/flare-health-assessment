@@ -27,6 +27,7 @@ const Chart = () => {
         })
         setFilteredAirportData({})
     }
+    // move into global context
     const getAirportData = async () => {
         const localData = await JSON.parse(localStorage.getItem('airport_data'))
         if(localData){
