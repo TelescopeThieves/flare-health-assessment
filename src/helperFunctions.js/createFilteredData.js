@@ -2,18 +2,21 @@
 const createFilteredData = (code, filterBy, airportData) => {
     const filteredData = {}
     const filter = filterBy.filterType
+    const year = filterBy.year
     let mean = 0
     let total = 0
-    if(filter === 'Total'){
+    if(filter === 'Total' && year){
         for(const obj of airportData){
-            if(obj.Airport.Code == code && obj.Time.Year == filterBy.year){
+            if(obj.Airport.Code == code && obj.Time.Year == year){
                 filteredData[obj.Time.Month] = obj.Statistics.Flights.Total
                 total += obj.Statistics.Flights.Total
             }
         }
-    } else {
+        filteredData['Result'] = total
+        return filteredData
+    } else if(filter && year) {
         for(const obj of airportData){
-            if(obj.Airport.Code == code && obj.Time.Year == filterBy.year){
+            if(obj.Airport.Code == code && obj.Time.Year == year){
                 obj.Statistics.Flights[filter] ? (
                     filteredData[obj.Time.Month] = `${(obj.Statistics.Flights[filter] / obj.Statistics.Flights.Total * 100).toFixed(2)}%`
                 )
@@ -31,11 +34,10 @@ const createFilteredData = (code, filterBy, airportData) => {
             }
         }
         const monthLength = Object.keys(filteredData).length
-        mean = `${(mean / monthLength).toFixed(2)}%`
+        filteredData['Result'] = `${(mean / monthLength).toFixed(2)}%`
+        return filteredData 
     }
-    filter === 'Total' ? filteredData['Result'] = total : filteredData['Result'] = mean
-    return filteredData
+    return {}
 }
 
-// export default createFilteredData
 module.exports = createFilteredData

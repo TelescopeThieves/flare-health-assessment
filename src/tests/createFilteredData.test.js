@@ -15,3 +15,17 @@ test('returns data for % of flights delayed in 2013 for FLL', () => {
         selectedAirportCodes: ["FLL"]
     }, dummyAirportData['API RESULT'])).toStrictEqual(dummyAirportData['FLL TEST'])
 })
+test('returns empty object when no filter type is provided', () => {
+    expect(createFilteredData("FLL", {
+        filterType: "",
+        year: "2013",
+        selectedAirportCodes: ["FLL"]
+    }, dummyAirportData['API RESULT'])).toStrictEqual(dummyAirportData['EMPTY'])
+})
+test('returns empty object when no year value is provided', () => {
+    expect(createFilteredData("FLL", {
+        filterType: "Delayed",
+        year: "",
+        selectedAirportCodes: ["FLL"]
+    }, dummyAirportData['API RESULT'])).toStrictEqual(dummyAirportData['EMPTY'])
+})

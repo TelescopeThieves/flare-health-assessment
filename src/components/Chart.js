@@ -51,16 +51,14 @@ const Chart = () => {
         }
     }
     const getFilteredAirportData = async (code) => {
-        const data = createFilteredData(code, filterBy, airportData, filteredAirportData)
-        if(data){
+        const data = createFilteredData(code, filterBy, airportData)
+        if(Object.keys(data).length){
             setFilteredAirportData((prev) => ({...prev, [code]: data}))
-            console.log(data)
         }
     }
-    console.log(filteredAirportData)
     useEffect(()=> {
         getAirportData();
-        filterBy.selectedAirportCodes.map(code => getFilteredAirportData(code));
+        filterBy.selectedAirportCodes.forEach(code => getFilteredAirportData(code));
     }, [filterBy])
     return(
         <WindowContainer>
