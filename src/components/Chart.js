@@ -8,6 +8,7 @@ import Button from '../styled/Button'
 import Header from './Header'
 import Footer from './Footer'
 import WindowContainer from '../styled/WindowContainer'
+import createFilteredData from '../helperFunctions.js/createFilteredData'
 
 const Chart = () => {
     const [airportData, setAirportData] = useState([])
@@ -49,46 +50,17 @@ const Chart = () => {
             setFilterBy((prev) => ({...prev, [name]: value}))
         }
     }
-    const createFilteredData = (code) => {
-        const filteredData = {}
-        const filter = filterBy.filterType
-        let mean = 0
-        let total = 0
-        if(filter === 'Total'){
-            for(const obj of airportData){
-                if(obj.Airport.Code == code && obj.Time.Year == filterBy.year){
-                    filteredData[obj.Time.Month] = obj.Statistics.Flights.Total
-                    total += obj.Statistics.Flights.Total
-                }
-            }
-        } else {
-            for(const obj of airportData){
-                if(obj.Airport.Code == code && obj.Time.Year == filterBy.year){
-                    obj.Statistics.Flights[filter] ? (
-                        filteredData[obj.Time.Month] = `${(obj.Statistics.Flights[filter] / obj.Statistics.Flights.Total * 100).toFixed(2)}%`
-                    )
-                    :
-                    (
-                        filteredData[obj.Time.Month] = `${(obj.Statistics['# of Delays'][filter] / obj.Statistics.Flights.Total * 100).toFixed(2)}%`
-                    )
-                    obj.Statistics.Flights[filter] ? (
-                        mean += (obj.Statistics.Flights[filter] / obj.Statistics.Flights.Total * 100)
-                    )
-                    :
-                    (
-                        mean += (obj.Statistics['# of Delays'][filter] / obj.Statistics.Flights.Total * 100)
-                    )
-                }
-            }
-            const monthLength = Object.keys(filteredData).length
-            mean = `${(mean / monthLength).toFixed(2)}%`
+    const getFilteredAirportData = async (code) => {
+        const data = createFilteredData(code, filterBy, airportData, filteredAirportData)
+        if(data){
+            setFilteredAirportData((prev) => ({...prev, [code]: data}))
+            console.log(data)
         }
-        filter === 'Total' ? filteredData['Result'] = total : filteredData['Result'] = mean
-        setFilteredAirportData((prev) => ({...prev, [code]: filteredData}))
     }
+    console.log(filteredAirportData)
     useEffect(()=> {
         getAirportData();
-        filterBy.selectedAirportCodes.map(code => createFilteredData(code));
+        filterBy.selectedAirportCodes.map(code => getFilteredAirportData(code));
     }, [filterBy])
     return(
         <WindowContainer>
